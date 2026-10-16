@@ -40,7 +40,7 @@ cade-meu-dinheiro/
 ├── docs/       Protótipos de tela (PDF)
 └── package.json   atalhos: rodar tudo e rodar testes
 ```
-Detalhes das pastas do backend, rastreabilidade das histórias e documentação dos endpoints estão em [`backend/README.md`](backend/README.md).
+Detalhes das pastas do backend, rastreabilidade das histórias e documentação dos endpoints estão em [`backend/README.md`](cade-meu-dinheiro/backend/README.md).
 
 ## Pré-requisitos
 - **JDK 17** ou superior
@@ -138,7 +138,7 @@ Na primeira vez do teste de ponta a ponta, instale o navegador do Playwright: `n
 | Integração frontend, backend e banco | `e2e/e2e.test.mjs`: cria conta pela tela, registra o gasto, confere no banco pela API, recarrega a página e confirma que o dado continua lá |
 
 ## Protótipos
-Wireframes das 4 telas e DER: [`docs/Prototipo-Cade-meu-dinheiro.pdf`](docs/Prototipo-Cade-meu-dinheiro.pdf)
+Wireframes das 4 telas e DER: [`docs/Prototipo-Cade-meu-dinheiro.pdf`](cade-meu-dinheiro/docs/Prototipo-Cade-meu-dinheiro.pdf)
 
 ## Limitações conhecidas
 Categorias fixas; não há exclusão de conta nem backup automático; o H2 em arquivo serve para o MVP, mas não para produção (use PostgreSQL).
