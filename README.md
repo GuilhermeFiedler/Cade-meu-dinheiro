@@ -1,3 +1,5 @@
+Guilherme Torres e Clara Meister
+
 # Cadê meu dinheiro?
 
 Aplicativo web para registrar gastos em segundos e descobrir para onde o dinheiro está indo, **sem conectar a nenhum banco**.
