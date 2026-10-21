@@ -37,10 +37,10 @@ cade-meu-dinheiro/
 ├── backend/    API em Java (controller, service, repository, model, dto, validation, security, exception, config)
 ├── frontend/   Site em React (pages, components, services, hooks, utils, styles)
 ├── e2e/        Teste de ponta a ponta (navegador + API + banco)
-├── docs/       Protótipos de tela (PDF)
+├── docs/       Documentação técnica em Markdown (requisitos, protótipos, ADRs, DER)
 └── package.json   atalhos: rodar tudo e rodar testes
 ```
-Detalhes das pastas do backend, rastreabilidade das histórias e documentação dos endpoints estão em [`backend/README.md`](cade-meu-dinheiro/backend/README.md).
+Detalhes das pastas do backend, rastreabilidade das histórias e documentação dos endpoints estão em [`backend/README.md`](backend/README.md).
 
 ## Pré-requisitos
 - **JDK 17** ou superior
@@ -137,8 +137,10 @@ Na primeira vez do teste de ponta a ponta, instale o navegador do Playwright: `n
 | Interface (componentes, serviços, formatação) | `src/**/*.test.js` no frontend |
 | Integração frontend, backend e banco | `e2e/e2e.test.mjs`: cria conta pela tela, registra o gasto, confere no banco pela API, recarrega a página e confirma que o dado continua lá |
 
-## Protótipos
-Wireframes das 4 telas e DER: [`docs/Prototipo-Cade-meu-dinheiro.pdf`](cade-meu-dinheiro/docs/Prototipo-Cade-meu-dinheiro.pdf)
+## Protótipos e documentação técnica
+- Wireframes das 4 telas: [`docs/03-prototipos.md`](docs/03-prototipos.md)
+- Visual do frontend (cores, componentes e telas): [`docs/design-system.md`](docs/design-system.md)
+- Índice completo (requisitos, requisitos não funcionais, ADRs e DER): [`docs/README.md`](docs/README.md)
 
 ## Limitações conhecidas
 Categorias fixas; não há exclusão de conta nem backup automático; o H2 em arquivo serve para o MVP, mas não para produção (use PostgreSQL).

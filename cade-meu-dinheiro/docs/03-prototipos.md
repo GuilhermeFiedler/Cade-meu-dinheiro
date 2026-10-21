@@ -1,6 +1,6 @@
 # 3. Protótipos de tela
 
-Wireframes de baixa fidelidade das telas do MVP. Os valores são de exemplo. O código das telas está em `frontend/src/pages`.
+Wireframes de baixa fidelidade das telas do MVP. Os valores são de exemplo. Para ver as telas como foram implementadas, veja o [design system](design-system.md). O código das telas está em `frontend/src/pages`.
 
 | Tela | Histórias | O que mostra | Código |
 |---|---|---|---|

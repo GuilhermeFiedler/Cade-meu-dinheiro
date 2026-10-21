@@ -14,7 +14,8 @@ Equipe: Guilherme T. Fiedler e Clara Meister
 | [01 – Requisitos](01-requisitos.md) | Requisitos funcionais, histórias de usuário com critérios de aceite (BDD) e regras de negócio |
 | [02 – Requisitos não funcionais](02-requisitos-nao-funcionais.md) | Qualidade, desempenho, segurança, disponibilidade e usabilidade, com metas mensuráveis |
 | [03 – Protótipos de tela](03-prototipos.md) | Wireframes das telas do MVP ligados às histórias de usuário |
-| [04 – Decisões de arquitetura (ADRs)](adr/README.md) | Escolhas de frontend, banco de dados, backend e integração bancária |
+| [04 – Decisões de arquitetura (ADRs)](adr/README.md) | Escolhas de frontend, banco de dados, backend e integração bancária (os ADRs que mudaram ficam como "Substituído") |
 | [05 – Modelagem de dados](05-modelagem-de-dados.md) | DER, dicionário de dados, índices e rastreabilidade |
+| [Design system](design-system.md) | Cores, tipografia, componentes e telas do frontend |
 
 Os valores numéricos dos requisitos não funcionais são metas propostas pela equipe e devem ser validadas durante os testes.

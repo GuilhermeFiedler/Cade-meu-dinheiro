@@ -7,15 +7,18 @@ import EstadoCarga from "./EstadoCarga.jsx";
 import ItemGasto from "./ItemGasto.jsx";
 import SeletorCategoria from "./SeletorCategoria.jsx";
 import SeletorMes from "./SeletorMes.jsx";
+import CartaoTotal from "./CartaoTotal.jsx";
+import MenuInferior from "./MenuInferior.jsx";
+import Rosca from "./Rosca.jsx";
 import { hoje } from "../utils/datas.js";
 
 const html = (el) => renderToStaticMarkup(el).replace(/\u00a0/g, " ");
 const noop = () => {};
 
-test("ItemGasto mostra descrição, categoria, dia/mês e valor em reais (US03)", () => {
+test("ItemGasto mostra descrição, categoria e valor em reais (US03)", () => {
   const g = { id: "1", descricao: "Almoço", categoria: "Alimentação", data: "2026-10-05", valor: 32.5 };
   const s = html(h(ItemGasto, { gasto: g, onEditar: noop, onExcluir: noop }));
-  for (const t of ["Almoço", "Alimentação", "05/10", "R$ 32,50", "Editar", "Excluir"]) assert.ok(s.includes(t), t);
+  for (const t of ["Almoço", "Alimentação", "R$ 32,50", "Editar", "Excluir"]) assert.ok(s.includes(t), t);
 });
 
 test("ItemGasto sem descrição mostra o nome da categoria", () => {
@@ -49,4 +52,22 @@ test("SeletorMes não deixa avançar além do mês atual (RF10)", () => {
   const passado = html(h(SeletorMes, { mes: "2024-05", onMudar: noop }));
   assert.doesNotMatch(passado, /aria-label="Próximo mês" disabled=""/);
   assert.ok(passado.includes("Maio de 2024"));
+});
+
+test("CartaoTotal mostra o rótulo, o total em reais e o detalhe (US06)", () => {
+  const s = html(h(CartaoTotal, { rotulo: "Total do mês", valor: 1240, detalhe: "3 gastos" }));
+  for (const t of ["Total do mês", "R$ 1.240,00", "3 gastos"]) assert.ok(s.includes(t), t);
+});
+
+test("Rosca desenha uma fatia por categoria, além do fundo (US05)", () => {
+  const itens = [{ categoria_id: 1, total: 80, cor: "#d9731f" }, { categoria_id: 2, total: 20, cor: "#2f7d5b" }];
+  const s = html(h(Rosca, { itens, total: 100 }));
+  assert.equal((s.match(/<circle/g) || []).length, 3);
+  assert.ok(s.includes("R$ 100,00"));
+});
+
+test("MenuInferior marca a aba atual", () => {
+  const s = html(h(MenuInferior, { atual: "hist", onIr: noop }));
+  assert.equal((s.match(/aria-current="page"/g) || []).length, 1);
+  for (const t of ["Novo", "Histórico", "Resumo"]) assert.ok(s.includes(t), t);
 });

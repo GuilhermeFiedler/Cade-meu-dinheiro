@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SeletorCategoria from "../components/SeletorCategoria.jsx";
 import { atualizarGasto, criarGasto } from "../services/gastoService.js";
-import { hoje } from "../utils/datas.js";
+import { diasAtras, hoje } from "../utils/datas.js";
 
 // US02 – Registrar gasto (RF03, RF04) e US04 – Editar gasto (RF06)
 export default function NovoGastoPage({ categorias, edit, avisar, onSalvo, onCancelar }) {
@@ -35,14 +35,23 @@ export default function NovoGastoPage({ categorias, edit, avisar, onSalvo, onCan
 
   return (
     <form onSubmit={enviar} noValidate className="form">
-      <input className="big" inputMode="decimal" autoComplete="off" placeholder="R$ 0,00" aria-label="Valor"
-             value={valor} onChange={(e) => setValor(e.target.value)} autoFocus={!edit} />
+      <div className="valor-campo">
+        <span aria-hidden="true">R$</span>
+        <input className="big" inputMode="decimal" autoComplete="off" placeholder="0,00" aria-label="Valor"
+               value={valor} onChange={(e) => setValor(e.target.value)} autoFocus={!edit} />
+      </div>
       <div className="err">{erros.valor}</div>
       <SeletorCategoria categorias={categorias} valor={categoria} onMudar={setCategoria} />
       <div className="err">{erros.categoria_id}</div>
       <input maxLength={100} placeholder="Descrição (opcional)" value={descricao} onChange={(e) => setDescricao(e.target.value)} />
       <div className="err">{erros.descricao}</div>
-      <label>Data <input type="date" max={hoje()} value={data} onChange={(e) => setData(e.target.value)} /></label>
+      <label className="campo">Data
+        <input type="date" max={hoje()} value={data} onChange={(e) => setData(e.target.value)} />
+      </label>
+      <div className="atalhos">
+        <button type="button" className="atalho" onClick={() => setData(hoje())}>Hoje</button>
+        <button type="button" className="atalho" onClick={() => setData(diasAtras(1))}>Ontem</button>
+      </div>
       <div className="err">{erros.data}</div>
       <button className="btn" disabled={salvando}>{salvando ? "Salvando…" : edit ? "Salvar alterações" : "Salvar gasto"}</button>
       {edit && <button type="button" className="btn sec" onClick={onCancelar}>Cancelar</button>}

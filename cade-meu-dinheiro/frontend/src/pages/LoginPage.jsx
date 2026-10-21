@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Cabecalho from "../components/Cabecalho.jsx";
+import Icone from "../components/Icone.jsx";
 import { entrar, registrar } from "../services/authService.js";
 
 // US01 – Criar conta e entrar (RF01, RF02)
@@ -33,12 +33,16 @@ export default function LoginPage({ onEntrou }) {
   }
 
   return (
-    <div id="app">
-      <Cabecalho titulo="Cadê meu dinheiro?" />
+    <div id="app" className="login">
+      <section className="hero">
+        <span className="logo grande" aria-hidden="true"><Icone nome="carteira" tamanho={28} /></span>
+        <h1>Cadê meu dinheiro?</h1>
+        <p>Anote seus gastos em segundos e descubra para onde o dinheiro está indo.</p>
+      </section>
       <main>
         <div className="tabs">
-          <button className={"btn" + (criar ? " sec" : "")} onClick={() => trocarModo(false)}>Entrar</button>
-          <button className={"btn" + (criar ? "" : " sec")} onClick={() => trocarModo(true)}>Criar conta</button>
+          <button className={"seg-btn" + (criar ? "" : " on")} onClick={() => trocarModo(false)}>Entrar</button>
+          <button className={"seg-btn" + (criar ? " on" : "")} onClick={() => trocarModo(true)}>Criar conta</button>
         </div>
         <form onSubmit={enviar} noValidate className="form">
           {criar && (<>

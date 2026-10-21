@@ -1,0 +1,39 @@
+/* Design tokens do "Cadê meu dinheiro?" – veja docs/design-system.md */
+:root {
+  /* marca */
+  --primary: #0b7a55;
+  --primary-ink: #ffffff;
+  --primary-soft: #e3f5ec;
+  --brand-1: #0b7a55;
+  --brand-2: #0b3d2e;
+  /* superfícies e texto */
+  --bg: #eef3f0;
+  --surface: #ffffff;
+  --surface-2: #f5f8f6;
+  --ink: #0f1f1a;
+  --mut: #566660;
+  --line: #dbe4df;
+  /* estados */
+  --danger: #b3261e;
+  --toast-ok: #0b7a55;
+  --toast-bad: #b3261e;
+  /* forma */
+  --radius: 18px;
+  --shadow: 0 1px 2px rgba(15, 31, 26, 0.06), 0 12px 32px rgba(15, 31, 26, 0.08);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #34d399;
+    --primary-ink: #06251a;
+    --primary-soft: #12342a;
+    --bg: #0b110e;
+    --surface: #141d19;
+    --surface-2: #1a2621;
+    --ink: #eaf2ee;
+    --mut: #9db0a7;
+    --line: #2a3a33;
+    --danger: #ff8a80;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+}

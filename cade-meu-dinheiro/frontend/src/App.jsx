@@ -34,7 +34,8 @@ export default function App() {
   return (
     <>
       <div id="app">
-        <Cabecalho titulo={tela === "novo" && edit ? "Editar gasto" : TITULOS[tela]} onSair={sair} />
+        <Cabecalho titulo={tela === "novo" && edit ? "Editar gasto" : TITULOS[tela]}
+          subtitulo={"Olá, " + usuario.nome.split(" ")[0]} onSair={sair} />
         <main>
           {tela === "novo" && (
             <NovoGastoPage key={edit ? edit.id : "novo"} categorias={categorias} edit={edit} avisar={avisar}

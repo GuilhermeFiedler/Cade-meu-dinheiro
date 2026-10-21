@@ -1,10 +1,12 @@
-# ADR-001: Frontend em React com Vite (JavaScript), consumindo a API do backend – Aprovado
+# ADR-001: Frontend em React com Vite e TypeScript, entregue como PWA – Substituído pelo ADR-005
+
+> **Status: Substituído.** Esta decisão não está mais em uso. Veja o [ADR-005](ADR-005-frontend-react-vite-javascript.md).
 
 ## Contexto
 O público usa o celular para anotar gastos na hora em que acontecem. É preciso uma interface mobile-first, rápida de construir por uma equipe pequena e sem a burocracia de publicar em lojas de aplicativos.
 
 ## Decisão
-Usar React 18 com Vite, em JavaScript, como aplicativo web responsivo (mobile-first). O frontend é um projeto separado do backend e chama a API REST por meio de um proxy configurado no Vite (`/api` para `http://localhost:8080`) durante o desenvolvimento.
+Usar React com Vite e TypeScript, entregue como aplicativo web responsivo com suporte a PWA, para ser instalado na tela inicial do celular.
 
 ## Consequências (trade-offs)
 **Vantagens**
@@ -16,4 +18,7 @@ Usar React 18 com Vite, em JavaScript, como aplicativo web responsivo (mobile-fi
 **Desvantagens**
 - Acesso limitado a recursos nativos, como notificações no iOS.
 - O desempenho é inferior ao de um app nativo.
-- A equipe precisa conhecer React; e usar JavaScript em vez de TypeScript abre mão da checagem de tipos.
+- A equipe precisa conhecer React e TypeScript.
+
+## Motivo da substituição
+Na implementação, o frontend foi feito em JavaScript e sem o recurso de PWA. Veja o ADR-005.

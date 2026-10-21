@@ -20,3 +20,13 @@ export const nomeMes = (mes) => {
 
 /** "2026-10-05" -> "05/10". */
 export const diaMes = (data) => data.slice(8) + "/" + data.slice(5, 7);
+
+/** Data de n dias atrás (AAAA-MM-DD) no fuso local. */
+export const diasAtras = (n) => {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return new Date(d - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+};
+
+/** "Hoje", "Ontem" ou dd/mm. */
+export const rotuloDia = (data) => (data === hoje() ? "Hoje" : data === diasAtras(1) ? "Ontem" : diaMes(data));
