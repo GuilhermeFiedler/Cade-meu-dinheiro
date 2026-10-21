@@ -49,13 +49,19 @@ Detalhes das pastas do backend, rastreabilidade das histórias e documentação 
 - Internet na primeira execução, para baixar as dependências
 
 ## Instalação
-Na pasta raiz do projeto:
+Todos os comandos `npm run ...` deste README devem ser rodados na **pasta raiz do projeto**: a pasta que contém os arquivos `package.json` e `README.md` e as pastas `backend`, `frontend`, `docs` e `e2e`.
+
+Se você baixou o projeto de um repositório ou de um zip, essa pasta pode estar um nível abaixo da que foi baixada. Para conferir, abra um terminal nela e rode `dir` (Windows) ou `ls` (Linux/macOS): devem aparecer `package.json`, `backend` e `frontend`. Se não aparecerem, entre na pasta seguinte (`cd nome-da-pasta`) e confira de novo.
+
+Exemplo no Windows:
 ```
+cd C:\Users\seu-usuario\IdeaProjects\Cade-meu-dinheiro\cade-meu-dinheiro
 npm run setup
 ```
 Esse comando instala as dependências do atalho e do frontend. As dependências do backend o Maven baixa sozinho na primeira execução.
 
 ## Execução
+Na **pasta raiz do projeto** (a mesma da instalação):
 ```
 npm run dev
 ```
@@ -63,10 +69,16 @@ Sobe o backend (porta 8080) e o frontend (porta 5173) juntos, e o navegador abre
 
 Login de teste: `demo@exemplo.com` / `senha12345`.
 
-Para rodar separado, em dois terminais:
+Para rodar separado, em dois terminais (cada um começando na pasta raiz do projeto):
 ```
-cd backend  && mvn spring-boot:run
-cd frontend && npm install && npm run dev
+# terminal 1 (backend)
+cd backend
+mvn spring-boot:run
+
+# terminal 2 (frontend)
+cd frontend
+npm install
+npm run dev
 ```
 
 ## Configuração das variáveis de ambiente
@@ -117,6 +129,8 @@ erDiagram
 - **Regra de data não futura (RN04):** é validada pela API, não pelo banco.
 
 ## Como executar os testes
+Os comandos abaixo também são rodados na **pasta raiz do projeto**.
+
 | Comando | O que roda | Precisa do sistema rodando? |
 |---|---|---|
 | `npm run test:backend` | Testes do backend (JUnit, com banco H2 em memória) | Não |
