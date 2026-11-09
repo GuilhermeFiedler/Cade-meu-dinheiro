@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(properties = {
     "spring.datasource.url=jdbc:h2:mem:teste;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1",
-    "app.dados-teste=false"})
+    "app.dados-teste=false",
+    "app.limite.registros=100000"}) // os testes criam muitas contas a partir do mesmo IP
 @AutoConfigureMockMvc
 public @interface TesteApi {}

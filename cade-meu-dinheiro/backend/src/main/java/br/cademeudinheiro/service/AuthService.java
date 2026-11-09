@@ -7,6 +7,7 @@ import br.cademeudinheiro.dto.UsuarioResponse;
 import br.cademeudinheiro.exception.ApiException;
 import br.cademeudinheiro.model.Usuario;
 import br.cademeudinheiro.repository.UsuarioRepository;
+import br.cademeudinheiro.security.LimiteTentativas;
 import br.cademeudinheiro.security.Tokens;
 import br.cademeudinheiro.validation.Validacao;
 import java.util.UUID;
@@ -19,17 +20,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
     private static final Pattern EMAIL = Pattern.compile("[^@\\s]+@[^@\\s]+\\.[^@\\s]+");
+    private static final int SENHA_MAX = 72; // limite do BCrypt
     private final UsuarioRepository usuarios;
     private final Tokens tokens;
     private final BCryptPasswordEncoder encoder;
+    private final LimiteTentativas limite;
+    /** Hash descartável: o login de e-mail inexistente também gasta o tempo do BCrypt (evita revelar quem tem conta). */
+    private final String hashFalso;
 
-    public AuthService(UsuarioRepository usuarios, Tokens tokens, BCryptPasswordEncoder encoder) {
+    public AuthService(UsuarioRepository usuarios, Tokens tokens, BCryptPasswordEncoder encoder, LimiteTentativas limite) {
         this.usuarios = usuarios;
         this.tokens = tokens;
         this.encoder = encoder;
+        this.limite = limite;
+        this.hashFalso = encoder.encode(UUID.randomUUID().toString());
     }
 
-    public SessaoResponse registrar(RegistroRequest r) {
+    public SessaoResponse registrar(RegistroRequest r, String ip) {
+        limite.contarRegistro(ip);
         String nome = Validacao.texto(r.nome());
         String email = Validacao.texto(r.email()).toLowerCase();
         String senha = r.senha() == null ? "" : r.senha();
@@ -39,9 +47,10 @@ public class AuthService {
         if (email.length() > 254 || !EMAIL.matcher(email).matches()) {
             throw new ApiException(422, "Informe um e-mail válido", "email");
         }
-        if (senha.length() < 8 || senha.length() > 72) {
+        if (senha.length() < 8 || senha.length() > SENHA_MAX) {
             throw new ApiException(422, "A senha deve ter entre 8 e 72 caracteres", "senha");
         }
+        Validacao.senhaForte(senha, email);
         Usuario u = new Usuario(UUID.randomUUID(), nome, email, encoder.encode(senha)); // RN06
         try {
             usuarios.criar(u);
@@ -51,12 +60,20 @@ public class AuthService {
         return sessao(u);
     }
 
-    public SessaoResponse entrar(LoginRequest r) {
+    public SessaoResponse entrar(LoginRequest r, String ip) {
+        String email = Validacao.texto(r.email()).toLowerCase();
+        limite.exigirLoginLiberado(ip, email);
         String senha = r.senha() == null ? "" : r.senha();
-        Usuario u = usuarios.buscarPorEmail(Validacao.texto(r.email()).toLowerCase()).orElse(null);
-        if (u == null || !encoder.matches(senha, u.senhaHash())) {
+        Usuario u = usuarios.buscarPorEmail(email).orElse(null);
+        // Sempre roda o BCrypt, exista o usuário ou não. Senha acima do limite nunca confere (e não é processada).
+        String hash = u != null ? u.senhaHash() : hashFalso;
+        String tentativa = senha.length() <= SENHA_MAX ? senha : "";
+        boolean confere = encoder.matches(tentativa, hash);
+        if (u == null || !confere || senha.length() > SENHA_MAX) {
+            limite.registrarFalhaLogin(ip, email);
             throw new ApiException(401, "E-mail ou senha incorretos", null);
         }
+        limite.limparLogin(email);
         return sessao(u);
     }
 

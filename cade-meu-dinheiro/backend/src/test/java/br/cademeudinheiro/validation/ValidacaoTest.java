@@ -30,6 +30,15 @@ class ValidacaoTest {
     }
 
     @Test
+    void senhaPrevisivelEhRecusada() { // RN06 (reforço)
+        for (String fraca : new String[] {"12345678", "PASSWORD", "zzzzzzzz", "ana.silva@x.com"}) {
+            assertThrows(ApiException.class, () -> Validacao.senhaForte(fraca, "ana.silva@x.com"), fraca);
+        }
+        assertThrows(ApiException.class, () -> Validacao.senhaForte("anasilva", "anasilva@x.com"));
+        assertDoesNotThrow(() -> Validacao.senhaForte("Gasto#Teste2024", "ana@x.com"));
+    }
+
+    @Test
     void mesUsaFormatoAnoMes() {
         assertEquals("2024-05", Validacao.mes("2024-05").toString());
         assertThrows(ApiException.class, () -> Validacao.mes("05/2024"));

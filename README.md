@@ -21,7 +21,7 @@ Ficam para depois: metas e limites por categoria, categorias personalizadas, lem
 | Camada | Tecnologia |
 |---|---|
 | Frontend | React 18, Vite 5, JavaScript, CSS |
-| Backend | Java 17, Spring Boot 3.3 (Spring Web, Spring JDBC), Maven |
+| Backend | Java 17+, Spring Boot 3.5 (Spring Web, Spring JDBC), Maven |
 | Banco de dados | H2 em arquivo (padrão) ou PostgreSQL |
 | Segurança | Senhas com BCrypt, token de sessão assinado com HMAC-SHA256 (7 dias) |
 | Testes | JUnit 5 e MockMvc (backend), `node:test` (frontend), Playwright (ponta a ponta) |
@@ -69,13 +69,13 @@ npm run dev
 ```
 Sobe o backend (porta 8080) e o frontend (porta 5173) juntos, e o navegador abre em **http://localhost:5173**. O backend leva alguns segundos para iniciar. Se aparecer "Não foi possível conectar ao servidor", espere um pouco e tente de novo.
 
-Login de teste: `demo@exemplo.com` / `senha12345`.
+O `npm run dev` usa o perfil **dev**, que cria o usuário de teste `demo@exemplo.com` / `senha12345`. Sem esse perfil (por exemplo, em um servidor) nenhum usuário de teste é criado.
 
 Para rodar separado, em dois terminais (cada um começando na pasta raiz do projeto):
 ```
 # terminal 1 (backend)
 cd backend
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=dev   # sem o perfil dev não há usuário de teste
 
 # terminal 2 (frontend)
 cd frontend
@@ -84,13 +84,18 @@ npm run dev
 ```
 
 ## Configuração das variáveis de ambiente
-Nenhuma variável é obrigatória: tudo funciona com os valores padrão.
+Nenhuma variável é obrigatória para desenvolver. **Em produção** defina pelo menos `APP_SECRET` (32 caracteres ou mais) e um banco PostgreSQL; veja [`docs/06-seguranca.md`](docs/06-seguranca.md).
 
 | Variável | Onde | Padrão | Para que serve |
 |---|---|---|---|
 | `PORT` | backend | `8080` | Porta da API. Se mudar, ajuste também o proxy em `frontend/vite.config.js`. |
-| `APP_SECRET` | backend | aleatório a cada execução | Chave que assina os tokens de sessão. Se não for definida, os usuários precisam entrar de novo quando o backend reinicia. |
-| `DADOS_TESTE` | backend | `true` | Cria o usuário de teste e alguns gastos na primeira execução. Use `false` para não criar. |
+| `APP_SECRET` | backend | aleatório a cada execução | Chave que assina os tokens de sessão (mínimo de 32 caracteres; valores menores impedem a inicialização). Se não for definida, os usuários precisam entrar de novo quando o backend reinicia. |
+| `DADOS_TESTE` | backend | `false` (`true` no perfil dev) | Cria o usuário de teste e alguns gastos na primeira execução. |
+| `SESSAO_HORAS` | backend | `168` (7 dias) | Validade da sessão, em horas. |
+| `CORS_ORIGENS` | backend | vazio (CORS desligado) | Domínios do frontend aceitos, separados por vírgula. Só é necessário se o frontend ficar em outro domínio. |
+| `LIMITE_LOGIN_FALHAS` | backend | `5` | Falhas de login por e-mail antes do bloqueio temporário. |
+| `LIMITE_REGISTROS` | backend | `20` | Cadastros por IP dentro da janela. |
+| `LIMITE_JANELA_MIN` | backend | `15` | Janela, em minutos, dos limites acima. |
 | `SPRING_DATASOURCE_URL` | backend | H2 em `backend/data/` | Endereço do banco. Exemplo para PostgreSQL: `jdbc:postgresql://localhost:5432/cade_meu_dinheiro` |
 | `SPRING_DATASOURCE_USERNAME` | backend | `sa` | Usuário do banco |
 | `SPRING_DATASOURCE_PASSWORD` | backend | vazio | Senha do banco |
@@ -126,7 +131,7 @@ erDiagram
 ```
 - **Restrições:** valor entre 0,01 e 9.999.999,99; descrição de até 100 caracteres; e-mail único; ao apagar um usuário, os gastos dele são apagados junto; não dá para apagar uma categoria que tem gastos.
 - **Índice:** `gasto (usuario_id, data)`, para o histórico e o resumo do mês.
-- **Dados iniciais:** as 6 categorias (Alimentação, Transporte, Lazer, Moradia, Saúde e Outros) são criadas ao iniciar. O usuário de teste e 6 gastos de exemplo são criados se não houver nenhum usuário e `DADOS_TESTE` não for `false`.
+- **Dados iniciais:** as 6 categorias (Alimentação, Transporte, Lazer, Moradia, Saúde e Outros) são criadas ao iniciar. O usuário de teste e 6 gastos de exemplo só são criados se não houver nenhum usuário e `DADOS_TESTE` for `true` (padrão do perfil dev).
 - **Onde ficam os dados:** no H2 padrão, em `backend/data/`. Para recomeçar do zero, apague essa pasta com o backend parado.
 - **Regra de data não futura (RN04):** é validada pela API, não pelo banco.
 
@@ -156,6 +161,7 @@ Na primeira vez do teste de ponta a ponta, instale o navegador do Playwright: `n
 ## Protótipos e documentação técnica
 - Wireframes das 4 telas: [`docs/03-prototipos.md`](docs/03-prototipos.md)
 - Visual do frontend (cores, componentes e telas): [`docs/design-system.md`](docs/design-system.md)
+- Segurança (controles implementados e checklist de publicação): [`docs/06-seguranca.md`](docs/06-seguranca.md)
 - Índice completo (requisitos, requisitos não funcionais, ADRs e DER): [`docs/README.md`](docs/README.md)
 
 ## Limitações conhecidas

@@ -71,7 +71,7 @@ Como usuário, quero ver o total do mês para saber o tamanho do meu gasto.
 | RN03 | Todo gasto deve ter uma categoria; no MVP as categorias são fixas: Alimentação, Transporte, Lazer, Moradia, Saúde e Outros. |
 | RN04 | A data do gasto não pode ser posterior à data atual; se não for informada, assume o dia de hoje. |
 | RN05 | A descrição é opcional e tem no máximo 100 caracteres. |
-| RN06 | O e-mail é único no sistema e a senha deve ter no mínimo 8 caracteres. |
+| RN06 | O e-mail é único no sistema e a senha deve ter no mínimo 8 caracteres e não pode ser previsível (lista de senhas comuns, caractere repetido ou igual ao e-mail). |
 | RN07 | Os totais do mês consideram a data do gasto, e não a data em que ele foi registrado. |
 | RN08 | A exclusão de um gasto é definitiva e exige confirmação do usuário. |
 | RN09 | O sistema não se conecta a bancos nem a instituições financeiras; todos os dados são informados manualmente. |

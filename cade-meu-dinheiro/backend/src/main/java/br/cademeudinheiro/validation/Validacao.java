@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /** Validações de entrada e regras RN02 (valor), RN04 (data) e RN05 (descrição). */
@@ -12,7 +13,24 @@ public final class Validacao {
     private static final BigDecimal MAX = new BigDecimal("9999999.99");
     private static final Pattern MES = Pattern.compile("20\\d\\d-(0[1-9]|1[0-2])");
 
+    /** Senhas muito comuns, recusadas no cadastro (lista curta de exemplo; ver docs/06-seguranca.md). */
+    private static final Set<String> SENHAS_COMUNS = Set.of(
+        "12345678", "123456789", "1234567890", "11111111", "00000000", "87654321", "12341234",
+        "senha123", "senha1234", "senha12345", "password", "password1", "password123",
+        "qwerty123", "qwertyui", "abc12345", "abcd1234", "iloveyou", "admin123",
+        "minhasenha", "brasil123", "mudar123");
+
     private Validacao() {}
+
+    /** RN06 (reforço): recusa senha previsível: da lista de comuns, um único caractere repetido ou igual ao e-mail. */
+    public static void senhaForte(String senha, String email) {
+        String s = senha.toLowerCase();
+        String parteLocal = email.contains("@") ? email.substring(0, email.indexOf('@')) : email;
+        boolean repetida = senha.chars().distinct().count() == 1;
+        if (SENHAS_COMUNS.contains(s) || repetida || s.equals(email) || (parteLocal.length() >= 4 && s.equals(parteLocal))) {
+            throw new ApiException(422, "Escolha uma senha menos previsível", "senha");
+        }
+    }
 
     public static String texto(Object o) {
         return o instanceof String s ? s.trim() : "";

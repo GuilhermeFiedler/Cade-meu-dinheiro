@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
 const BASE = process.env.BASE_URL || "http://localhost:5173";
-const SENHA = "senha12345";
+const SENHA = "Gasto#Teste2024";
 const email = (n) => `e2e.${n}.${Date.now()}@exemplo.com`;
 const EMAIL_A = email("a");
 

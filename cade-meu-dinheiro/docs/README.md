@@ -16,6 +16,7 @@ Equipe: Guilherme T. Fiedler e Clara Meister
 | [03 – Protótipos de tela](03-prototipos.md) | Wireframes das telas do MVP ligados às histórias de usuário |
 | [04 – Decisões de arquitetura (ADRs)](adr/README.md) | Escolhas de frontend, banco de dados, backend e integração bancária (os ADRs que mudaram ficam como "Substituído") |
 | [05 – Modelagem de dados](05-modelagem-de-dados.md) | DER, dicionário de dados, índices e rastreabilidade |
+| [06 – Segurança](06-seguranca.md) | Controles de segurança implementados, configuração por ambiente e checklist de publicação |
 | [Design system](design-system.md) | Cores, tipografia, componentes e telas do frontend |
 
 Os valores numéricos dos requisitos não funcionais são metas propostas pela equipe e devem ser validadas durante os testes.

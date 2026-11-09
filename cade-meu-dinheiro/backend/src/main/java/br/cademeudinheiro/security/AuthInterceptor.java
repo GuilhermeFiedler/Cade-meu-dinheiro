@@ -18,6 +18,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) {
+        if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
+            return true; // pré-verificação de CORS não leva token; quem responde é o próprio mecanismo de CORS
+        }
         String h = req.getHeader("Authorization");
         UUID uid = h != null && h.startsWith("Bearer ") ? tokens.ler(h.substring(7)) : null;
         if (uid == null) {

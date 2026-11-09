@@ -1,0 +1,13 @@
+# IDE
+.idea/
+*.iml
+# Dependências e builds
+node_modules/
+target/
+# Banco H2 local e segredos
+**/backend/data/
+*.mv.db
+*.trace.db
+.env
+.env.*
+*.log
